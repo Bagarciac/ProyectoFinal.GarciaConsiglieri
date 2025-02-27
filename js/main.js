@@ -1,54 +1,53 @@
-const teclado1 = {
-    marca: "hyperx",
-    nombre: "alloy core",
-    tamano: 75,
-    cantidad: 10
-};
-const teclado2 = {
-    marca: "logitech",
-    nombre: "g650",
-    tamano: 100,
-    cantidad: 5
-};
+const teclados= [
+    {
+        marca: "hyperx",
+        nombre: "alloy core",
+        tamano: 75,
+        cantidad: 10 
+    },
+    {
+        marca: "logitech",
+        nombre: "g650",
+        tamano: 100,
+        cantidad: 5
+    },
+    {
+        marca: "steelseries",
+        nombre: "apexpro tkl",
+        tamano: 75,
+        cantidad: 20
+    },
 
-const teclado3 = {
-    marca: "steelseries",
-    nombre: "apexpro tkl",
-    tamano: 75,
-    cantidad: 20
-};
-const mouse1 = {
-    marca: "logitech",
-    nombre: "gpro wireless",
-    wireless: true,
-    botones_lat: true,
-    botones_cant: 5,
-    cantidad: 10
-};
+]
 
-const mouse2 = {
-    marca: "logitech",
-    nombre: "m17",
-    wireless: true,
-    botones_lat: false,
-    botones_cant: 3,
-    cantidad: 3
-};
+const mouses= [
+    {
+        marca: "logitech",
+        nombre: "gpro wireless",
+        wireless: true,
+        botones_lat: true,
+        botones_cant: 5,
+        cantidad: 10  
+    },
+    {
+        marca: "logitech",
+        nombre: "m17",
+        wireless: true,
+        botones_lat: false,
+        botones_cant: 3,
+        cantidad: 3
+    },
+    {
+        marca: "logitech",
+        nombre: "mx master 3s",
+        wireless: true,
+        botones_lat: true,
+        botones_cant: 7,
+        cantidad: 15
+    },
 
-const mouse3 = {
-    marca: "logitech",
-    nombre: "mx master 3s",
-    wireless: true,
-    botones_lat: true,
-    botones_cant: 7,
-    cantidad: 15
-};
+]
 
-
-
-
-const teclados = [teclado1,teclado2,teclado3]
-const mouses = [mouse1,mouse2,mouse3]
 const productos = [teclados,mouses]
 
 function mostrar_teclados (){
@@ -73,13 +72,14 @@ function mostrar_todos(){
     mostrar_teclados()
     mostrar_mouses()
 }
-function filtro_de_busqueda(){
-    let marca = prompt("Que marca quiere buscar: ")
+function filtro_de_busqueda(marca){
     console.log("Teclados: ")
-    let cant=0
+    let cantT=0
+    let cantM=0
     for(const teclado of teclados){
         if(marca==teclado.marca){
             console.log("Marca:"+teclado.marca+" Nombre: "+teclado.nombre+" Tamaño:"+teclado.tamano+"% Cantidad: "+teclado.cantidad)
+            cantT++
         }
     }
     console.log("Mouse:")
@@ -87,14 +87,19 @@ function filtro_de_busqueda(){
         if(marca==mouse.marca){
             if(mouse.botones_lat){
                 console.log("Marca: "+mouse.marca+" Nombre: "+mouse.nombre+" Es inalambrico: "+mouse.wireless+" Cantidad de botones: "+mouse.botones_cant+" Stock: "+mouse.cantidad)
+                cantM++
             }
             else{
                 console.log("Marca: "+mouse.marca+" Nombre: "+mouse.nombre+" Es inalambrico: "+mouse.wireless+" Stock: "+mouse.cantidad)
+                cantM++
             }
         }
     }
-    if (cant==0){
-        alert("No hay ningun producto de esa marca")
+    if (cantT==0){
+        alert("No hay ningun teclado de esa marca")
+    }
+    if( cantM==0){
+        alert("No hay ningun mouse de esta marca")
     }
 }
 
@@ -121,7 +126,8 @@ while(opcion!=0){
             }
             break;
         case 3:
-            filtro_de_busqueda()
+            let marca = prompt("Que marca quiere buscar: ")
+            filtro_de_busqueda(marca)
             break;
         case 0:
             break;
