@@ -58,6 +58,28 @@ class Teclado{
         this.cantidad=cantidad
     }
 }
+class Mouse{
+    static id = 0
+    constructor(marca,nombre,wireless,botones_lat,botones_cant,cantidad){
+        this.id= ++Mouse.id,
+        this.marca=marca,
+        this.nombre=nombre,
+        this.wireless=wireless,
+        this.botones_lat=botones_lat,
+        this.botones_cant=botones_cant,
+        this.cantidad=cantidad
+    }
+}
+
+const agregar_a_inv = (valor) =>{
+    console.log(valor)
+    if(valor == '1'){
+        let carga_teclado = document.createElement("form")
+        carga_teclado.innerHTML='<form id="form"><br> <p>Marca/Nombre/Tamaño/cantidad</p> <input type="text" id="marca"> <input type="text" id="nombre"> <input type="number" id="tamano"> <input type="number" id="cantidad"> <button type="button" id="cargar">Cargar</button> </form>'
+        section.appendChild(carga_teclado)
+        let buscar = document.getElementById("carga")
+    }
+}
 
 const productos = [teclados,mouses]
 
@@ -115,29 +137,30 @@ function filtro_de_busqueda(marca){
 }
 
 
-console.log("Menu\n1-Para ver todos los productos\n2-para elegir que productos ver\n3-Para buscar por marca\n0-Para salir")
-let opcion = parseInt(prompt("Eliga una opcion"))
-while(opcion!=0){
-    switch(opcion){
-        case 1:
+
+
+let opcion = document.getElementById("opcion")
+let buscar = document.getElementById("buscar")
+let section = document.getElementById("section")
+buscar.onclick = () => {
+    console.log(opcion.value)
+    switch(opcion.value){
+        case '1':
             mostrar_todos()
             break;
-        case 2:
-            console.log("1-Para ver los teclados\n2-Para ver los mouse\n0-para salir")
-            let n = parseInt(prompt("Seleccione una opcion"))
-            while(n!=0){
-                if(n==1){
-                    mostrar_teclados()
-                }
-                else if(n==2){
-                    mostrar_mouses()
-                }
-                console.log("1-Para ver los teclados\n2-Para ver los mouse\n0-para salir")
-                n= parseInt(prompt("Seleccione una opcion")) 
+        case '2':
+            let selector = document.createElement("form")
+            selector.innerHTML= '<form id="form"> <select id="producto"> <option value="1">Agregar teclado</option> <option value="2">Agregar mouse</option></select> <button type="button" id="agregar">agregar</button> </form>'
+            section.appendChild(selector)
+            let agregar= document.getElementById("agregar")
+            let producto = document.getElementById("producto")
+            let valor
+            agregar.onclick = ()=> {
+                valor = producto.value
+                agregar_a_inv(valor)
             }
             break;
-        case 3:
-            let marca = prompt("Que marca quiere buscar: ")
+        case '3':
             filtro_de_busqueda(marca)
             break;
         case 0:
@@ -145,6 +168,7 @@ while(opcion!=0){
         default:
             break;
     }
-    console.log("Menu\n1-Para ver todos los productos\n2-para elegir que productos ver\n3-Para buscar por marca\n0-Para salir")
-    opcion = parseInt(prompt("Eliga una opcion"))
 }
+
+
+ 
