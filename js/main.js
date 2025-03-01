@@ -48,6 +48,17 @@ const mouses= [
 
 ]
 
+class Teclado{
+    static id= 0
+    constructor(marca,nombre,tamano,cantidad){
+        this.id= ++Teclado.id
+        this.marca=marca,
+        this.nombre=nombre,
+        this.tamano=tamano,
+        this.cantidad=cantidad
+    }
+}
+
 const productos = [teclados,mouses]
 
 function mostrar_teclados (){
