@@ -77,7 +77,15 @@ const agregar_a_inv = (valor) =>{
         let carga_teclado = document.createElement("form")
         carga_teclado.innerHTML='<form id="form"><br> <p>Marca/Nombre/Tamaño/cantidad</p> <input type="text" id="marca"> <input type="text" id="nombre"> <input type="number" id="tamano"> <input type="number" id="cantidad"> <button type="button" id="cargar">Cargar</button> </form>'
         section.appendChild(carga_teclado)
-        let buscar = document.getElementById("carga")
+        let cargar = document.getElementById("cargar")
+        cargar.onclick = () =>{
+            let marca = document.getElementById("marca")
+            let nombre = document.getElementById("nombre")
+            let tamano = document.getElementById("tamano")
+            let cantidad = document.getElementById("cantidad")
+            const teclado = new Teclado(marca.value,nombre.value,tamano.value,cantidad.value)
+            teclados.push(teclado)
+        }
     }
 }
 
@@ -146,21 +154,23 @@ buscar.onclick = () => {
     console.log(opcion.value)
     switch(opcion.value){
         case '1':
+            section.innerHTML= " "
             mostrar_todos()
             break;
         case '2':
+            section.innerHTML= " "
             let selector = document.createElement("form")
             selector.innerHTML= '<form id="form"> <select id="producto"> <option value="1">Agregar teclado</option> <option value="2">Agregar mouse</option></select> <button type="button" id="agregar">agregar</button> </form>'
             section.appendChild(selector)
             let agregar= document.getElementById("agregar")
             let producto = document.getElementById("producto")
-            let valor
             agregar.onclick = ()=> {
-                valor = producto.value
+                let valor= producto.value
                 agregar_a_inv(valor)
             }
             break;
         case '3':
+            section.innerHTML= " "
             filtro_de_busqueda(marca)
             break;
         case 0:
