@@ -1,52 +1,13 @@
-const teclados= [
-    {
-        marca: "hyperx",
-        nombre: "alloy core",
-        tamano: 75,
-        cantidad: 10 
-    },
-    {
-        marca: "logitech",
-        nombre: "g650",
-        tamano: 100,
-        cantidad: 5
-    },
-    {
-        marca: "steelseries",
-        nombre: "apexpro tkl",
-        tamano: 75,
-        cantidad: 20
-    },
+let productosrecuperados=JSON.parse(localStorage.getItem('productos'))
+const teclados = []
+const mouses = []
+if (productosrecuperados!=null){
+    for( const teclado of productosrecuperados[0]){
+        teclados.push(teclado)
+    }
+}
 
-]
 
-const mouses= [
-    {
-        marca: "logitech",
-        nombre: "gpro wireless",
-        wireless: true,
-        botones_lat: true,
-        botones_cant: 5,
-        cantidad: 10  
-    },
-    {
-        marca: "logitech",
-        nombre: "m17",
-        wireless: true,
-        botones_lat: false,
-        botones_cant: 3,
-        cantidad: 3
-    },
-    {
-        marca: "logitech",
-        nombre: "mx master 3s",
-        wireless: true,
-        botones_lat: true,
-        botones_cant: 7,
-        cantidad: 15
-    },
-
-]
 
 class Teclado{
     static id= 0
@@ -88,6 +49,8 @@ const agregar_a_inv = (valor) =>{
         }
     }
 }
+
+
 
 const productos = [teclados,mouses]
 
@@ -150,6 +113,11 @@ function filtro_de_busqueda(marca){
 let opcion = document.getElementById("opcion")
 let buscar = document.getElementById("buscar")
 let section = document.getElementById("section")
+let g_y_s = document.getElementById("guardarysalir")
+g_y_s.onclick= ()=>{
+    localStorage.setItem('productos',JSON.stringify(productos))
+    window.close()
+}
 buscar.onclick = () => {
     console.log(opcion.value)
     switch(opcion.value){
@@ -172,6 +140,9 @@ buscar.onclick = () => {
         case '3':
             section.innerHTML= " "
             filtro_de_busqueda(marca)
+            break;
+        case '5':
+            localStorage.clear()
             break;
         case 0:
             break;
