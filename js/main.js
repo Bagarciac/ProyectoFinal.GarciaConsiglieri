@@ -55,10 +55,9 @@ const agregar_a_inv = (valor) =>{
 const productos = [teclados,mouses]
 
 function mostrar_teclados (){
-    console.log("Teclados: ")
-    for( const teclado of teclados){
-        console.log("Marca:"+teclado.marca+" Nombre: "+teclado.nombre+" Tamaño:"+teclado.tamano+"% Cantidad: "+teclado.cantidad)
-    }
+    let imp= document.createElement("teclados")
+    imp.innerHTML =`<h2>Lista de teclados</h2><ul> ${teclados.map(teclado => `<li>Marca: ${teclado.marca}, Nombre: ${teclado.nombre}, Tamaño: ${teclado.tamano}, Cantidad: ${teclado.cantidad}</li>`)} </ul>`
+    section.appendChild(imp)
 }
 function mostrar_mouses (){
     console.log("Mouse:")
