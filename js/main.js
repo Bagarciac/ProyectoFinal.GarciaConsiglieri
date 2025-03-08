@@ -5,6 +5,9 @@ if (productosrecuperados!=null){
     for( const teclado of productosrecuperados[0]){
         teclados.push(teclado)
     }
+    for( const mouse of productosrecuperados[1]){
+        mouses.push(mouse)
+    }
 }
 
 
@@ -21,13 +24,12 @@ class Teclado{
 }
 class Mouse{
     static id = 0
-    constructor(marca,nombre,wireless,botones_lat,botones_cant,cantidad){
+    constructor(marca,nombre,wireless,botones_lat,cantidad){
         this.id= ++Mouse.id,
         this.marca=marca,
         this.nombre=nombre,
         this.wireless=wireless,
         this.botones_lat=botones_lat,
-        this.botones_cant=botones_cant,
         this.cantidad=cantidad
     }
 }
@@ -48,62 +50,136 @@ const agregar_a_inv = (valor) =>{
             teclados.push(teclado)
         }
     }
+    if(valor=='2'){
+        let carga_mouse = document.createElement('form')
+        carga_mouse.innerHTML=`<form id="form"><br> <p>Marca/Nombre/Wireless/Botones laterales/Cantidad</p> <input type="text" id="marca"> <input type="text" id="nombre"> <select id=wireless> <option value="true">si</option> <option value="false">no</option> </select> <select id=botones_lat> <option value="true">si</option> <option value="false">no</option> </select> <input type="number" id="cantidad"> <button type="button" id="cargar">Cargar</button> </form>`
+        section.appendChild(carga_mouse)
+        cargar.onclick = () =>{
+            let marca = document.getElementById("marca")
+            let nombre = document.getElementById("nombre")
+            let wireless = document.getElementById("wireless")
+            let botones_lat= document.getElementById("botones_lat")
+            let cantidad = document.getElementById("cantidad")
+            const mouse = new Mouse(marca.value,nombre.value,wireless.value,botones_lat.value,cantidad.value)
+            mouses.push(mouse)
+        }
+    }
 }
 
 
 
 const productos = [teclados,mouses]
 
-function mostrar_teclados (){
+function mostrar_teclados (lista){
     let imp= document.createElement("teclados")
-    imp.innerHTML =`<h2>Lista de teclados</h2><ul> ${teclados.map(teclado => `<li>Marca: ${teclado.marca}, Nombre: ${teclado.nombre}, Tamaño: ${teclado.tamano}, Cantidad: ${teclado.cantidad}</li>`)} </ul>`
-    section.appendChild(imp)
+    return imp.innerHTML =`<h3>Teclados</h3><ul> ${lista.map(teclado => `<li>Marca: ${teclado.marca}, Nombre: ${teclado.nombre}, Tamaño: ${teclado.tamano}, Cantidad: ${teclado.cantidad}</li>`)} </ul>`
+    
 }
-function mostrar_mouses (){
-    console.log("Mouse:")
-    for( const mouse of mouses){
-        if(mouse.botones_lat){
-            console.log("Marca: "+mouse.marca+" Nombre: "+mouse.nombre+" Es inalambrico: "+mouse.wireless+" Cantidad de botones: "+mouse.botones_cant+" Stock: "+mouse.cantidad)
-        }
-        else{
-            console.log("Marca: "+mouse.marca+" Nombre: "+mouse.nombre+" Es inalambrico: "+mouse.wireless+" Stock: "+mouse.cantidad)
-        }
-    }
+function mostrar_mouses (lista){
+    let imp= document.createElement("mouses")
+    return imp.innerHTML =`<h3>Mouse</h3><ul> ${lista.map(mouse => `<li>Marca: ${mouse.marca}, Nombre: ${mouse.nombre}, Wireless: ${mouse.wireless},Botones Laterales: ${mouse.botones_lat} Cantidad: ${mouse.cantidad}</li>`)} </ul>`
 }
 
 function mostrar_todos(){
-    mostrar_teclados()
-    mostrar_mouses()
+    let imp= document.createElement("productos")
+    imp.innerHTML=`${mostrar_teclados(teclados)} ${mostrar_mouses(mouses)}`
+    section.appendChild(imp)
 }
-function filtro_de_busqueda(marca){
-    console.log("Teclados: ")
-    let cantT=0
-    let cantM=0
-    for(const teclado of teclados){
-        if(marca==teclado.marca){
-            console.log("Marca:"+teclado.marca+" Nombre: "+teclado.nombre+" Tamaño:"+teclado.tamano+"% Cantidad: "+teclado.cantidad)
-            cantT++
-        }
-    }
-    console.log("Mouse:")
-    for(const mouse of mouses){
-        if(marca==mouse.marca){
-            if(mouse.botones_lat){
-                console.log("Marca: "+mouse.marca+" Nombre: "+mouse.nombre+" Es inalambrico: "+mouse.wireless+" Cantidad de botones: "+mouse.botones_cant+" Stock: "+mouse.cantidad)
-                cantM++
+const en_stock = (lista)=>{
+    const nueva_lista= lista.filter(producto=> producto.cantidad>0)
+    return nueva_lista
+}
+
+const filtro_de_busqueda= (valor)=> {
+    let mostrar = document.createElement("section")
+    section.appendChild(mostrar)
+    if(valor ==='1'){
+        mostrar.innerHTML=' '
+        let menu=document.createElement("form")
+        menu.innerHTML=`<p>Ingrese la Marca</p> <input type="text" id="marca"> <select id="stock"> <option value="1">Mostrar Todos</option> <option value="2">Solo en stock</option> </select> <button type="button" id="filtro">Buscar</button> `
+        mostrar.appendChild(menu)
+        let marca = document.getElementById('marca')
+        let stock = document.getElementById('stock')
+        let filtro = document.getElementById('filtro')
+        filtro.onclick = () => {
+            let imp_section = document.createElement("section")
+            mostrar.appendChild(imp_section)
+            console.log("1")
+            let stock_valor = stock.value
+            let marca_valor = marca.value
+            const teclados_dmarca= teclados.filter(teclado=> teclado.marca===marca_valor)
+            const mouses_dmarca= mouses.filter(mouse=> mouse.marca===marca_valor)
+            if(stock_valor=='1'){
+                console.log('2')
+                let imp= document.createElement("productos")
+                imp.innerHTML =`<h2>Lista de productos de ${marca_valor}</h2>${mostrar_teclados(teclados_dmarca)} ${mostrar_mouses(mouses_dmarca)} `
+                mostrar.appendChild(imp)
             }
             else{
-                console.log("Marca: "+mouse.marca+" Nombre: "+mouse.nombre+" Es inalambrico: "+mouse.wireless+" Stock: "+mouse.cantidad)
-                cantM++
+                const t_en_stock = en_stock(teclados_dmarca)
+                const m_en_stock = en_stock(mouses_dmarca)
+                let imp= document.createElement("productos")
+                imp.innerHTML =`<h2>Lista de productos de ${marca_valor}</h2>${mostrar_teclados(t_en_stock)} ${mostrar_mouses(m_en_stock)} `
+                mostrar.appendChild(imp)
             }
         }
     }
-    if (cantT==0){
-        alert("No hay ningun teclado de esa marca")
+    else{
+        mostrar.innerHTML=''
+        let menu=document.createElement("form")
+        menu.innerHTML=`<h3>Seleccione los producos que desea ver</h3> <select id="producto"> <option value="0">Teclados </option> <option value="1">Mouses </option> </select> <select id="stock"> <option value="1">Mostrar Todos</option> <option value="2">Solo en stock</option> </select> <button type="button" id="filtro">Buscar</button> `
+        mostrar.appendChild(menu)
+        let producto=document.getElementById("producto")
+        let stock=document.getElementById("stock")
+        let filtro=document.getElementById("filtro")
+        filtro.onclick=()=>{
+            let producto_valor= producto.value
+            let stock_valor= stock.value
+            if(stock_valor=="1"){
+                switch (producto_valor){
+                    case "0":
+                        let imp_t= document.createElement("imp")
+                        imp_t.innerHTML= `${mostrar_teclados(teclados)}`
+                        mostrar.appendChild(imp_t)
+                        break;
+                    case "1":
+                        let imp_m= document.createElement("imp")
+                        imp_m.innerHTML= `${mostrar_mouses(mouses)}`
+                        mostrar.appendChild(imp_m)
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            else{
+                switch (producto_valor){
+                    case "0":
+                        let imp_t= document.createElement("imp")
+                        let t_en_stock=en_stock(teclados)
+                        imp_t.innerHTML= `${mostrar_teclados(t_en_stock)}`
+                        mostrar.appendChild(imp_t)
+                        break;
+                    case "1":
+                        let imp_m= document.createElement("imp")
+                        let m_en_stock=en_stock(mouses)
+                        imp_m.innerHTML= `${mostrar_mouses(m_en_stock)}`
+                        mostrar.appendChild(imp_m)
+                        
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
     }
-    if( cantM==0){
-        alert("No hay ningun mouse de esta marca")
-    }
+}
+
+const editar_inventario= ()=>{
+    let mensaje=document.createElement("p")
+    mensaje.innerHTML=`Todavia la tengo que hacer`
+    section.appendChild(mensaje)
 }
 
 
@@ -138,7 +214,19 @@ buscar.onclick = () => {
             break;
         case '3':
             section.innerHTML= " "
-            filtro_de_busqueda(marca)
+            let busqueda = document.createElement("form")
+            busqueda.innerHTML= `<form id="form"> <select id="valor"> <option value="1">Buscar por Marca</option> <option value="2">Buscar por Producto</option> </select> <button type="button" id="ir">Buscar</button> </form>`
+            section.appendChild(busqueda)
+            let ir= document.getElementById("ir")
+            let valor=document.getElementById("valor")
+            ir.onclick= ()=>{
+                valor= valor.value
+                filtro_de_busqueda(valor)
+            }
+            break;
+        case '4':
+            section.innerHTML=" "
+            editar_inventario()
             break;
         case '5':
             localStorage.clear()
