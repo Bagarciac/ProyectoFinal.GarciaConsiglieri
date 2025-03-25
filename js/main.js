@@ -1,19 +1,14 @@
 let productosrecuperados=JSON.parse(localStorage.getItem('productos'))
-    if (!productosrecuperados){
-        productosrecuperados=[]
-    }
-const productos= productosrecuperados
-
-fetch("./db/data.JSON")
-.then(response => response.json())
-.then(data => {
-    productos.push(...data)
-    localStorage.setItem('productos',JSON.stringify(productos))
-})
-
-
-
-
+if (!productosrecuperados){
+    productosrecuperados=[]
+    fetch("./db/data.JSON")
+    .then(response => response.json())
+    .then(data => {
+        productosrecuperados.push(...data)
+        localStorage.setItem('productos', JSON.stringify(productosrecuperados))
+    })
+}
+const productos = productosrecuperados
 
 class Teclado{
     static id= 0
@@ -45,6 +40,8 @@ let editarInventario=document.getElementById("editarInventario")
 let borrarInventario=document.getElementById("borrarInventario")
 let mostrar = document.getElementById("mostrar")
 let subMenus = document.getElementById("subMenus")
+let ingresar = document.getElementById("ingresar")
+let opciones = document.getElementById("opciones")
 
 const ver_inventario = ()=>{
     let productosrecuperados=JSON.parse(localStorage.getItem('productos'))
@@ -52,8 +49,11 @@ const ver_inventario = ()=>{
         productosrecuperados=[]
     }
     const listaProductos= productosrecuperados
-    subMenus.innerHTML=""
-    mostrar.innerHTML=""
+    console.log(listaProductos)
+    subMenus.innerHTML=``
+    mostrar.innerHTML=``
+    opciones.innerHTML=``
+    ingresar.innerHTML=``
     let menuVerProductos= document.createElement("form")
     menuVerProductos.innerHTML=`<br>
     <button type="button" id="verTodo">Ver todo</button>
@@ -68,9 +68,11 @@ const ver_inventario = ()=>{
         ver_mouse(listaProductos)
     }
     verTeclado.onclick= () =>{
+        mostrar.innerHTML=``
         ver_teclado(listaProductos)
     }
     verMouse.onclick= () =>{
+        mostrar.innerHTML=``
         ver_mouse(listaProductos)
     }
 
@@ -123,6 +125,8 @@ const ver_mouse=(lista) =>{
 const agregar_inventario = ()=>{
     subMenus.innerHTML=``
     mostrar.innerHTML=``
+    opciones.innerHTML=``
+    ingresar.innerHTML=``
     let menuVerProductos= document.createElement("form")
     menuVerProductos.innerHTML=`<br>
     <button type="button" id="agregarMouse">Agregar Mouse</button>
@@ -139,12 +143,14 @@ const agregar_inventario = ()=>{
 }
 
 const agregar_teclado = () =>{
+    ingresar.innerHTML=``
     mostrar.innerHTML=``
+    ver_teclado(productos)
     let cargaTeclado=document.createElement("form")
     cargaTeclado.innerHTML=`<p>Marca/Nombre/Tamaño/cantidad</p>
     <input type="text" id="marca"> <input type="text" id="nombre"> <input type="number" id="tamano"> 
     <input type="number" id="cantidad"> <button type="button" id="cargar">Cargar</button>`
-    mostrar.appendChild(cargaTeclado)
+    ingresar.appendChild(cargaTeclado)
     let cargar=document.getElementById("cargar")
     cargar.onclick= () => {
         let marca = document.getElementById("marca")
@@ -153,16 +159,20 @@ const agregar_teclado = () =>{
         let cantidad = document.getElementById("cantidad")
         const teclado = new Teclado(marca.value,nombre.value,tamano.value,cantidad.value)
         productos.push(teclado)
+        mostrar.innerHTML=``
+        ver_teclado(productos)
         localStorage.setItem('productos',JSON.stringify(productos))
     }
 
 }
 const agregar_mouse = () =>{
+    ingresar.innerHTML=``
     mostrar.innerHTML=``
+    ver_mouse(productos)
     let cargaMouse=document.createElement("form")
     cargaMouse.innerHTML=`<p>Marca/Nombre/Wireless/Botones laterales/Cantidad</p>
     <input type="text" id="marca"> <input type="text" id="nombre"> <select id=wireless> <option value="Si">si</option> <option value="NO">no</option> </select> <select id=botones_lat> <option value="Si">si</option> <option value="No">no</option> </select> <input type="number" id="cantidad"> <button type="button" id="cargar">Cargar</button>`
-    mostrar.appendChild(cargaMouse)
+    ingresar.appendChild(cargaMouse)
     let cargar=document.getElementById("cargar")
     cargar.onclick = () =>{
         let marca = document.getElementById("marca")
@@ -172,6 +182,8 @@ const agregar_mouse = () =>{
         let cantidad = document.getElementById("cantidad")
         const mouse = new Mouse(marca.value,nombre.value,wireless.value,botones_lat.value,cantidad.value)
         productos.push(mouse)
+        mostrar.innerHTML=``
+        ver_mouse(productos)
         localStorage.setItem('productos',JSON.stringify(productos))
     }
 }
@@ -198,6 +210,8 @@ const buscar_productos = ()=>{
     const listaProductos= productosrecuperados
     subMenus.innerHTML=``
     mostrar.innerHTML=``
+    opciones.innerHTML=``
+    ingresar.innerHTML=``
     let menuBuscarProductos= document.createElement("form")
     menuBuscarProductos.innerHTML=`<br>
     <button type="button" id="buscarMarca">Buscar por Marca</button>
@@ -215,12 +229,12 @@ const buscar_productos = ()=>{
 }
 
 const buscar_id=(lista) => {
-    mostrar.innerHTML=``
-    let opciones=document.createElement("form")
-    opciones.innerHTML=`<br>
+    opciones.innerHTML=``
+    let opcion=document.createElement("form")
+    opcion.innerHTML=`<br>
     <p>Ingrese el numero de id.      Selecione el tipo de producto</p>
     <input type="number" id="Id"> <select id=tipoProducto> <option value="1">Teclado</option> <option value="2">Mouse</option> </select> <button type="button" id="buscar">Buscar</button>`
-    mostrar.appendChild(opciones)
+    opciones.appendChild(opcion)
     let id=document.getElementById("Id")
     let tipoProducto=document.getElementById("tipoProducto")
     let buscar= document.getElementById("buscar")
@@ -240,13 +254,13 @@ const buscar_id=(lista) => {
 }
 
 const buscar_marca = (lista)=>{
-    mostrar.innerHTML=``
-    let opciones=document.createElement("form")
-    opciones.innerHTML=`<br>
+    opciones.innerHTML=``
+    let opcion=document.createElement("form")
+    opcion.innerHTML=`<br>
     <select id=verProductos> <option value="1">Ver todos los productos</option> <option value="2">Ver solo los teclados</option> <option value="3">Ver solo los mouses</option> </select>
     <input type="text" id="marca"> <select id=enStock> <option value="1">Solo en Stock</option> <option value="2">Todos</option> </select> 
     <button type="button" id="buscar">Buscar</button>`
-    mostrar.appendChild(opciones)
+    opciones.appendChild(opcion)
     let verProductos = document.getElementById("verProductos")
     let marca = document.getElementById("marca")
     let enStock = document.getElementById("enStock")
@@ -294,116 +308,178 @@ const filtro_id =(lista,id)=>{
     return nueva_lista
 }
 
-const filtro_de_busqueda= (valor)=> {
-    let mostrar = document.createElement("section")
-    section.appendChild(mostrar)
-    if(valor ==='1'){
-        mostrar.innerHTML=' '
-        let menu=document.createElement("form")
-        menu.innerHTML=`<p>Ingrese la Marca</p> <input type="text" id="marca"> <select id="stock"> <option value="1">Mostrar Todos</option> <option value="2">Solo en stock</option> </select> <button type="button" id="filtro">Buscar</button> `
-        mostrar.appendChild(menu)
-        let marca = document.getElementById('marca')
-        let stock = document.getElementById('stock')
-        let filtro = document.getElementById('filtro')
-        filtro.onclick = () => {
-            let imp_section = document.createElement("section")
-            mostrar.appendChild(imp_section)
-            console.log("1")
-            let stock_valor = stock.value
-            let marca_valor = marca.value
-            const teclados_dmarca= teclados.filter(teclado=> teclado.marca===marca_valor)
-            const mouses_dmarca= mouses.filter(mouse=> mouse.marca===marca_valor)
-            if(stock_valor=='1'){
-                console.log('2')
-                let imp= document.createElement("productos")
-                imp.innerHTML =`<h2>Lista de productos de ${marca_valor}</h2>${mostrar_teclados(teclados_dmarca)} ${mostrar_mouses(mouses_dmarca)} `
-                mostrar.appendChild(imp)
-            }
-            else{
-                const t_en_stock = en_stock(teclados_dmarca)
-                const m_en_stock = en_stock(mouses_dmarca)
-                let imp= document.createElement("productos")
-                imp.innerHTML =`<h2>Lista de productos de ${marca_valor}</h2>${mostrar_teclados(t_en_stock)} ${mostrar_mouses(m_en_stock)} `
-                mostrar.appendChild(imp)
-            }
-        }
+
+
+const editar_inventario= ()=>{
+    let productosrecuperados=JSON.parse(localStorage.getItem('productos'))
+    if (!productosrecuperados){
+        productosrecuperados=[]
     }
-    else{
-        mostrar.innerHTML=''
-        let menu=document.createElement("form")
-        menu.innerHTML=`<h3>Seleccione los producos que desea ver</h3> <select id="producto"> <option value="0">Teclados </option> <option value="1">Mouses </option> </select> <select id="stock"> <option value="1">Mostrar Todos</option> <option value="2">Solo en stock</option> </select> <button type="button" id="filtro">Buscar</button> `
-        mostrar.appendChild(menu)
-        let producto=document.getElementById("producto")
-        let stock=document.getElementById("stock")
-        let filtro=document.getElementById("filtro")
-        filtro.onclick=()=>{
-            let producto_valor= producto.value
-            let stock_valor= stock.value
-            if(stock_valor=="1"){
-                switch (producto_valor){
-                    case "0":
-                        let imp_t= document.createElement("imp")
-                        imp_t.innerHTML= `${mostrar_teclados(teclados)}`
-                        mostrar.appendChild(imp_t)
-                        break;
-                    case "1":
-                        let imp_m= document.createElement("imp")
-                        imp_m.innerHTML= `${mostrar_mouses(mouses)}`
-                        mostrar.appendChild(imp_m)
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-            else{
-                switch (producto_valor){
-                    case "0":
-                        let imp_t= document.createElement("imp")
-                        let t_en_stock=en_stock(teclados)
-                        imp_t.innerHTML= `${mostrar_teclados(t_en_stock)}`
-                        mostrar.appendChild(imp_t)
-                        break;
-                    case "1":
-                        let imp_m= document.createElement("imp")
-                        let m_en_stock=en_stock(mouses)
-                        imp_m.innerHTML= `${mostrar_mouses(m_en_stock)}`
-                        mostrar.appendChild(imp_m)
-                        
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
+    const listaProductos= productosrecuperados
+    subMenus.innerHTML=``
+    opciones.innerHTML=``
+    mostrar.innerHTML=``
+    ingresar.innerHTML=``
+    let menuEditarInventario= document.createElement("form")
+    menuEditarInventario.innerHTML=`<br>
+    <button type="button" id="editarMouse">Editar Mouse</button>
+    <button type="button" id="editarTeclado">Editar Teclado</button>`
+    subMenus.appendChild(menuEditarInventario)
+    let editarMouse=document.getElementById("editarMouse")
+    let editarTeclado=document.getElementById("editarTeclado")
+    editarMouse.onclick=()=>{
+        editar_mouse(listaProductos)
+    }
+    editarTeclado.onclick=()=>{
+        editar_teclado(listaProductos)
     }
 }
 
-const editar_inventario= ()=>{
-    let mensaje=document.createElement("p")
-    mensaje.innerHTML=`Todavia la tengo que hacer`
-    section.appendChild(mensaje)
+const editar_teclado = (lista)=>{
+    opciones.innerHTML=``
+    mostrar.innerHTML=``
+    ver_teclado(lista)
+    let opcion=document.createElement("form")
+    opcion.innerHTML=`<br>
+    <button type="button" id="actualizarProducto">Actualizar Producto</button>
+    <button type="button" id="eliminarProducto">Eliminar Producto</button>`
+    opciones.appendChild(opcion)
+    let actualizarProducto=document.getElementById("actualizarProducto")
+    let eliminarProducto=document.getElementById("eliminarProducto")
+    actualizarProducto.onclick=()=>{
+        actualizar_teclado(lista)
+    }
+    eliminarProducto.onclick=()=>{
+        eliminar_producto(lista)
+    }
+    
+}
+
+const actualizar_teclado = (lista)=>{
+    ingresar.innerHTML=``
+    let ingresarId=document.createElement("form")
+    ingresarId.innerHTML=`<br>
+    <p>Ingrese el id del producto que desea actualizar</p>
+    <input type="text" id="id"> <button type="button" id="actualizar">Actualizar</button>`
+    ingresar.appendChild(ingresarId)
+    let id=document.getElementById("id")
+    let actualizar=document.getElementById("actualizar")
+    actualizar.onclick=()=>{
+    let id_valor=id.value
+        let indice=lista.findIndex(producto=> producto.id==id_valor)
+        if(indice!=-1){
+            lista.splice(indice,1)
+        }
+        let cargaTeclado=document.createElement("form")
+        cargaTeclado.innerHTML=`<p>Marca/Nombre/Tamaño/cantidad</p>
+        <input type="text" id="marca"> <input type="text" id="nombre"> <input type="number" id="tamano"> 
+        <input type="number" id="cantidad"> <button type="button" id="cargar">Cargar</button>`
+        ingresar.appendChild(cargaTeclado)
+        let cargar=document.getElementById("cargar")
+        cargar.onclick= () => {
+            let marca = document.getElementById("marca")
+            let nombre = document.getElementById("nombre")
+            let tamano = document.getElementById("tamano")
+            let cantidad = document.getElementById("cantidad")
+            const teclado = new Teclado(marca.value,nombre.value,tamano.value,cantidad.value)
+            lista.splice(indice,0,teclado)
+            mostrar.innerHTML=``
+            ver_teclado(lista)
+            localStorage.setItem('productos',JSON.stringify(lista))
+        }
+    }
+
+}
+
+const editar_mouse = (lista) =>{
+    opciones.innerHTML=``
+    mostrar.innerHTML=``
+    ver_mouse(lista)
+    let opcion=document.createElement("form")
+    opcion.innerHTML=`<br>
+    <button type="button" id="actualizarProducto">Actualizar Producto</button>
+    <button type="button" id="eliminarProducto">Eliminar Producto</button>`
+    opciones.appendChild(opcion)
+    let actualizarProducto=document.getElementById("actualizarProducto")
+    let eliminarProducto=document.getElementById("eliminarProducto")
+    actualizarProducto.onclick=()=>{
+        actualizar_mouse(lista)
+    }
+    eliminarProducto.onclick=()=>{
+        eliminar_producto(lista)
+    }
+}
+
+const actualizar_mouse = (lista)=>{
+    ingresar.innerHTML=``
+    let ingresarId=document.createElement("form")
+    ingresarId.innerHTML=`<br>
+    <p>Ingrese el id del producto que desea actualizar</p>
+    <input type="text" id="id"> <button type="button" id="actualizar">Actualizar</button>`
+    ingresar.appendChild(ingresarId)
+    let id=document.getElementById("id")
+    let actualizar=document.getElementById("actualizar")
+    actualizar.onclick=()=>{
+        let id_valor=id.value
+        let indice=lista.findIndex(producto=> producto.id==id_valor)
+        if(indice!=-1){
+            lista.splice(indice,1)
+        }
+        let cargaMouse=document.createElement("form")
+        cargaMouse.innerHTML=`<p>Marca/Nombre/Wireless/Botones laterales/Cantidad</p>
+        <input type="text" id="marca"> <input type="text" id="nombre"> <select id=wireless> <option value="Si">si</option> <option value="NO">no</option> </select> <select id=botones_lat> <option value="Si">si</option> <option value="No">no</option> </select> <input type="number" id="cantidad"> <button type="button" id="cargar">Cargar</button>`
+        ingresar.appendChild(cargaMouse)
+        let cargar=document.getElementById("cargar")
+        cargar.onclick = () =>{
+        let marca = document.getElementById("marca")
+        let nombre = document.getElementById("nombre")
+        let wireless = document.getElementById("wireless")
+        let botones_lat= document.getElementById("botones_lat")
+        let cantidad = document.getElementById("cantidad")
+        const mouse = new Mouse(marca.value,nombre.value,wireless.value,botones_lat.value,cantidad.value)
+        lista.splice(indice,0,mouse)
+        mostrar.innerHTML=``
+        ver_mouse(lista)
+        localStorage.setItem('productos',JSON.stringify(lista))
+        }
+    }
+    
+    
+}
+
+const eliminar_producto = (lista)=>{
+    ingresar.innerHTML=``
+    let ingresarId=document.createElement("form")
+    ingresarId.innerHTML=`<br>
+    <p>Ingrese el id del producto que desea eliminar</p>
+    <input type="text" id="id"> <button type="button" id="eliminar">Eliminar</button>`
+    ingresar.appendChild(ingresarId)
+    let id=document.getElementById("id")
+    let eliminar=document.getElementById("eliminar")
+    eliminar.onclick=()=>{
+        let id_valor=id.value
+        let indice=lista.findIndex(producto=> producto.id==id_valor)
+        if(indice!=-1){
+            lista.splice(indice,1)
+            localStorage.setItem('productos',JSON.stringify(lista))
+        }
+    }
 }
 
 verInventario.onclick = () =>{
-    console.log(1)
     ver_inventario()
 }
 agregarInventario.onclick = () =>{
-    console.log(2)
     agregar_inventario()
 }
 buscarProductos.onclick = () =>{
-    console.log(3)
     buscar_productos()
 }
 editarInventario.onclick = () =>{
-    console.log(4)
+    editar_inventario()
 }
 borrarInventario.onclick = () =>{
     localStorage.clear()
-    console.log(1)
 }
 
 
