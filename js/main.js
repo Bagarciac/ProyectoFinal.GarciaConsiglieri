@@ -4,6 +4,16 @@ let productosrecuperados=JSON.parse(localStorage.getItem('productos'))
     }
 const productos= productosrecuperados
 
+fetch("./db/data.JSON")
+.then(response => response.json())
+.then(data => {
+    productos.push(...data)
+    localStorage.setItem('productos',JSON.stringify(productos))
+})
+
+
+
+
 
 class Teclado{
     static id= 0

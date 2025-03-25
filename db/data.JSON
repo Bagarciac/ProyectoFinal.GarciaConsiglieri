@@ -1,0 +1,53 @@
+[
+    {
+        "id": "01t",
+        "marca": "Logitech",
+        "nombre": "g280",
+        "tamano": 70,
+        "tipo": "teclado",
+        "stock": 10
+    },
+    {
+        "id": "02t",
+        "marca": "hyperx",
+        "nombre": "alloy elite",
+        "tamano": 75,
+        "tipo": "teclado",
+        "stock": 10
+    },
+    {   
+        "id": "03t",
+        "marca": "corsair",
+        "nombre": "k95 rgb",
+        "tamano": 100,
+        "tipo": "teclado",
+        "stock": 0
+    },
+    {
+        "id": "01m",
+        "marca": "Logitech",
+        "nombre": "g208",
+        "wireless": "Si",
+        "botones_lat": "Si",
+        "tipo": "mouse",
+        "stock": 10
+    },
+    {
+        "id": "02m",
+        "marca": "Logitech",
+        "nombre": "g190",
+        "wireless": "Si",
+        "botones_lat": "NO",
+        "tipo": "mouse",
+        "stock": 0
+    },
+    {
+        "id": "03m",
+        "marca": "razer",
+        "nombre": "viper",
+        "wireless": "NO",
+        "botones_lat":"NO",
+        "tipo": "mouse",
+        "stock": 10
+    }
+]
