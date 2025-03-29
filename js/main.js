@@ -1,6 +1,3 @@
-import { object, string, number, date, InferType } from 'yup';
-
-
 let productosrecuperados=JSON.parse(localStorage.getItem('productos'))
 if (!productosrecuperados){
     productosrecuperados=[]
@@ -145,12 +142,32 @@ const agregar_inventario = ()=>{
     }
 }
 
-const verificar_tecladoSchema = object({
-    marca: string().required('La marca es requerida'),
-    nombre: string().required('el nombre es requerido'),
-    tamano: number().positive('El tamaño debe ser mayor a 0').integer('El tamaño debe ser un numero entero').required('El tamaño es requerido'),
-    cantidad: number().positive('La cantidad debe ser mayor a 0').integer('La cantidad debe ser un numero entero').required('La cantidad es requerida')
-})
+const verificar_teclado = (datos) => {
+    const errores = []
+    if (datos.marca.trim() === '') {
+        errores.push('La marca es requerida.')
+    }
+    if (datos.nombre.trim() === '') {
+        errores.push('El nombre es requerido.')
+    }
+    const tamano = Number(datos.tamano);
+    if (isNaN(tamano) || tamano <= 0 || !Number.isInteger(tamano)) {
+        errores.push('El tamaño debe ser un número entero positivo.')
+    }
+    const cantidad = Number(datos.cantidad);
+    if (isNaN(cantidad) || cantidad <= 0 || !Number.isInteger(cantidad)) {
+        errores.push('La cantidad debe ser un número entero mayor o igual a 0.')
+    }
+    if (errores.length > 0) {
+        throw new Error(errores.join('\n'))
+    }
+    return {
+        marca: datos.marca,
+        nombre: datos.nombre,
+        tamano: tamano,
+        cantidad: cantidad
+    };
+}
 
 const agregar_teclado = () =>{
     ingresar.innerHTML=``
@@ -162,28 +179,57 @@ const agregar_teclado = () =>{
     <input type="number" id="cantidad"> <button type="button" id="cargar">Cargar</button>`
     ingresar.appendChild(cargaTeclado)
     let cargar=document.getElementById("cargar")
-    cargar.onclick= async() => {
-        try{
-            const datosIngresados={
+    cargar.onclick = () => {
+        try {
+            const datosIngresados = {
                 marca: document.getElementById("marca").value,
                 nombre: document.getElementById("nombre").value,
                 tamano: document.getElementById("tamano").value,
                 cantidad: document.getElementById("cantidad").value
             }
-            const datosValidados = await verificar_tecladoSchema.validate(datosIngresados)
+            const datosValidados = verificar_teclado(datosIngresados)
             const teclado = new Teclado(datosValidados.marca,datosValidados.nombre,datosValidados.tamano,datosValidados.cantidad)
             productos.push(teclado)
             mostrar.innerHTML=``
             ver_teclado(productos)
             localStorage.setItem('productos',JSON.stringify(productos))
         }
-        catch(error){
-            alert(error.message)
+        catch(error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de validación',
+                text: error.message,
+                confirmButtonText: 'Ok'
+            })
         }
     }
-
 }
-const agregar_mouse = () =>{
+
+const verificar_mouse = (datos) => {
+    const errores = []
+    if (datos.marca.trim() === '') {
+        errores.push('La marca es requerida.')
+    }
+    if (datos.nombre.trim() === '') {
+        errores.push('El nombre es requerido.')
+    }
+    const cantidad = Number(datos.cantidad);
+    if (isNaN(cantidad) || cantidad <= 0 || !Number.isInteger(cantidad)) {
+        errores.push('La cantidad debe ser un número entero mayor o igual a 0.')
+    }
+    if (errores.length > 0) {
+        throw new Error(errores.join('\n'))
+    }
+    return {
+        marca: datos.marca,
+        nombre: datos.nombre,
+        wireless: datos.wireless,
+        botones_lat: datos.botones_lat,
+        cantidad: cantidad
+    };
+}
+
+const agregar_mouse = () => {
     ingresar.innerHTML=``
     mostrar.innerHTML=``
     ver_mouse(productos)
@@ -192,17 +238,30 @@ const agregar_mouse = () =>{
     <input type="text" id="marca"> <input type="text" id="nombre"> <select id=wireless> <option value="Si">si</option> <option value="NO">no</option> </select> <select id=botones_lat> <option value="Si">si</option> <option value="No">no</option> </select> <input type="number" id="cantidad"> <button type="button" id="cargar">Cargar</button>`
     ingresar.appendChild(cargaMouse)
     let cargar=document.getElementById("cargar")
-    cargar.onclick = () =>{
-        let marca = document.getElementById("marca")
-        let nombre = document.getElementById("nombre")
-        let wireless = document.getElementById("wireless")
-        let botones_lat= document.getElementById("botones_lat")
-        let cantidad = document.getElementById("cantidad")
-        const mouse = new Mouse(marca.value,nombre.value,wireless.value,botones_lat.value,cantidad.value)
-        productos.push(mouse)
-        mostrar.innerHTML=``
-        ver_mouse(productos)
-        localStorage.setItem('productos',JSON.stringify(productos))
+    cargar.onclick = () => {
+        try {
+            const datosIngresados = {
+                marca: document.getElementById("marca").value,
+                nombre: document.getElementById("nombre").value,
+                cantidad: document.getElementById("cantidad").value
+            }
+            let wireless = document.getElementById("wireless")
+            let botones_lat = document.getElementById("botones_lat")
+            const datosValidados = verificar_mouse(datosIngresados)
+            const mouse = new Mouse(datosValidados.marca,datosValidados.nombre,wireless.value,botones_lat.value,datosValidados.cantidad)
+            productos.push(mouse)
+            mostrar.innerHTML=``
+            ver_mouse(productos)
+            localStorage.setItem('productos',JSON.stringify(productos))
+        }
+        catch(error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de validación',
+                text: error.message,
+                confirmButtonText: 'Ok'
+            })
+        }
     }
 }
 
