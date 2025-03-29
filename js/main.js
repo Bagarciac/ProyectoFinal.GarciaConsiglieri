@@ -1,3 +1,6 @@
+import { object, string, number, date, InferType } from 'yup';
+
+
 let productosrecuperados=JSON.parse(localStorage.getItem('productos'))
 if (!productosrecuperados){
     productosrecuperados=[]
@@ -142,6 +145,13 @@ const agregar_inventario = ()=>{
     }
 }
 
+const verificar_tecladoSchema = object({
+    marca: string().required('La marca es requerida'),
+    nombre: string().required('el nombre es requerido'),
+    tamano: number().positive('El tamaño debe ser mayor a 0').integer('El tamaño debe ser un numero entero').required('El tamaño es requerido'),
+    cantidad: number().positive('La cantidad debe ser mayor a 0').integer('La cantidad debe ser un numero entero').required('La cantidad es requerida')
+})
+
 const agregar_teclado = () =>{
     ingresar.innerHTML=``
     mostrar.innerHTML=``
@@ -152,16 +162,24 @@ const agregar_teclado = () =>{
     <input type="number" id="cantidad"> <button type="button" id="cargar">Cargar</button>`
     ingresar.appendChild(cargaTeclado)
     let cargar=document.getElementById("cargar")
-    cargar.onclick= () => {
-        let marca = document.getElementById("marca")
-        let nombre = document.getElementById("nombre")
-        let tamano = document.getElementById("tamano")
-        let cantidad = document.getElementById("cantidad")
-        const teclado = new Teclado(marca.value,nombre.value,tamano.value,cantidad.value)
-        productos.push(teclado)
-        mostrar.innerHTML=``
-        ver_teclado(productos)
-        localStorage.setItem('productos',JSON.stringify(productos))
+    cargar.onclick= async() => {
+        try{
+            const datosIngresados={
+                marca: document.getElementById("marca").value,
+                nombre: document.getElementById("nombre").value,
+                tamano: document.getElementById("tamano").value,
+                cantidad: document.getElementById("cantidad").value
+            }
+            const datosValidados = await verificar_tecladoSchema.validate(datosIngresados)
+            const teclado = new Teclado(datosValidados.marca,datosValidados.nombre,datosValidados.tamano,datosValidados.cantidad)
+            productos.push(teclado)
+            mostrar.innerHTML=``
+            ver_teclado(productos)
+            localStorage.setItem('productos',JSON.stringify(productos))
+        }
+        catch(error){
+            alert(error.message)
+        }
     }
 
 }
