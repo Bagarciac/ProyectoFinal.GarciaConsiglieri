@@ -1,6 +1,8 @@
 let productosrecuperados=JSON.parse(localStorage.getItem('productos'))
-if (!productosrecuperados){
+if (productosrecuperados== null){
+    
     productosrecuperados=[]
+    console.log("2")
     fetch("./db/data.JSON")
     .then(response => response.json())
     .then(data => {
@@ -553,8 +555,9 @@ const borrar_inventario=()=>{
     aviso.innerHTML=`<h3>Si oprime confirmar se van a borrar todos los productos cargados en el sistema.</h3>
     <button type="button" id="confirmar">Confirmar</button>`
     mostrar.appendChild(aviso)
-    let confirmar = document.getElementById(confirmar)
+    let confirmar = document.getElementById("confirmar")
     confirmar.onclick = () =>{
+        console.log("1")
         localStorage.clear()
     }
 }
