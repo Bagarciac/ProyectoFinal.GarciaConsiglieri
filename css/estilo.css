@@ -1,0 +1,70 @@
+body {
+  background-color: rgb(246, 237, 226);
+}
+body header {
+  text-align: center;
+  font-size: 1.5rem;
+}
+body main .menu-principal {
+  text-align: center;
+}
+body main .menu-principal button {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+body main .sub-menus {
+  padding-left: 7%;
+}
+body main .sub-menus button {
+  padding-left: 3%;
+  padding-right: 3%;
+}
+body main .opciones {
+  padding-left: 7%;
+}
+body main .opciones p {
+  padding-left: 3%;
+}
+body main .opciones .input {
+  padding-left: 5%;
+  padding-right: 3%;
+}
+body main .opciones select {
+  padding-left: 3%;
+  padding-right: 3%;
+}
+body main .opciones button {
+  padding-left: 3%;
+  padding-right: 3%;
+}
+body main .mostrar {
+  padding-left: 7%;
+  font-size: 17px;
+}
+body main .mostrar h3 {
+  font-size: 25px;
+}
+body main .mostrar button {
+  padding-left: 3%;
+  padding-right: 3%;
+}
+body main .ingresar {
+  padding-left: 7%;
+}
+body main .ingresar p {
+  font-size: 17px;
+}
+body main .ingresar select {
+  padding-left: 1%;
+  padding-right: 0.5%;
+}
+body main .ingresar input {
+  padding-left: 3%;
+  padding-right: 3%;
+}
+body main .ingresar button {
+  padding-left: 3%;
+  padding-right: 3%;
+}
+
+/*# sourceMappingURL=estilo.css.map */

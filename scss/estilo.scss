@@ -1,0 +1,72 @@
+body{
+    background-color: rgb(246, 237, 226);
+
+    header{
+        text-align: center;
+        font-size: 1.5rem;
+    }
+
+    main{
+        .menu-principal{
+            text-align: center;
+            button{
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+        }
+        .sub-menus{
+            padding-left: 7%;
+            button{
+                padding-left: 3%;
+                padding-right: 3%;
+            }
+        }
+        .opciones{
+            padding-left: 7%;
+            p{
+                padding-left: 3%;
+            }
+            .input{
+                padding-left: 5%;
+                padding-right: 3%;
+            }
+            select{
+                padding-left: 3%;
+                padding-right: 3%;
+            }
+            button{
+                padding-left: 3%;
+                padding-right: 3%;
+            }
+        }
+        .mostrar{
+            padding-left: 7%;
+            font-size: 17px;
+            h3{
+                font-size: 25px;
+            }
+            button{
+                padding-left: 3%;
+                padding-right: 3%;
+            }
+        }
+        .ingresar{
+            padding-left: 7%;
+            p{
+                font-size: 17px;
+            }
+            select{
+                padding-left: 1%;
+                padding-right: 0.50%;
+            }
+            input{
+                padding-left: 3%;
+                padding-right: 3%;
+            }
+            button{
+                padding-left: 3%;
+                padding-right: 3%;
+            }
+        }
+    }
+}

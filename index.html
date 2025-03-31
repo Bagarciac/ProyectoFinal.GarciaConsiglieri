@@ -3,31 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/estilo.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="module" src="js/main.js" defer></script>
+    <script type="module" src="./js/main.js" defer></script>
     <title>Inventario</title>
 </head>
 <body>
     <header>
         <h1>Manejo de Inventario</h1>
     </header>
-
-    <br>
-    <form id="form">
-        <button type="button" id="verInventario">Ver Inventario</button>
-        <button type="button" id="agregarInventario">Agregar a Inventario</button>
-        <button type="button" id="buscarProductos">Buscar Productos</button>
-        <button type="button" id="editarInventario">Editar Inventario</button>
-        <button type="button" id="borrarInventario">Borrar Inventario</button>
-    </form>
-    <section id="subMenus">
-    </section>
-    <section id="opciones">
-    </section>
-    <section id="mostrar">
-    </section>
-    <section id="ingresar">
-    </section>
+    <main>
+        <br>
+        <form id="form" class="menu-principal">
+            <button type="button" id="verInventario">Ver Inventario</button>
+            <button type="button" id="agregarInventario">Agregar a Inventario</button>
+            <button type="button" id="buscarProductos">Buscar Productos</button>
+            <button type="button" id="editarInventario">Editar Inventario</button>
+            <button type="button" id="borrarInventario">Borrar Inventario</button>
+        </form>
+        <section id="subMenus" class="sub-menus">
+        </section>
+        <section id="opciones" class="opciones">
+        </section>
+        <section id="mostrar" class="mostrar">
+        </section>
+        <section id="ingresar" class="ingresar">
+        </section>
+    </main>
+    
 
 </body>
 </html>

@@ -64,6 +64,7 @@ const ver_inventario = ()=>{
     let verTeclado = document.getElementById("verTeclado")
     let verMouse = document.getElementById("verMouse")
     verTodo.onclick= () =>{
+        mostrar.innerHTML=``
         ver_teclado(listaProductos)
         ver_mouse(listaProductos)
     }
@@ -310,7 +311,7 @@ const buscar_id=(lista) => {
     let opcion=document.createElement("form")
     opcion.innerHTML=`<br>
     <p>Ingrese el numero de id.      Selecione el tipo de producto</p>
-    <input type="number" id="Id"> <select id=tipoProducto> <option value="1">Teclado</option> <option value="2">Mouse</option> </select> <button type="button" id="buscar">Buscar</button>`
+    <input type="number" id="Id" class="input"> <select id=tipoProducto> <option value="1">Teclado</option> <option value="2">Mouse</option> </select> <button type="button" id="buscar">Buscar</button>`
     opciones.appendChild(opcion)
     let id=document.getElementById("Id")
     let tipoProducto=document.getElementById("tipoProducto")
@@ -335,7 +336,7 @@ const buscar_marca = (lista)=>{
     let opcion=document.createElement("form")
     opcion.innerHTML=`<br>
     <select id=verProductos> <option value="1">Ver todos los productos</option> <option value="2">Ver solo los teclados</option> <option value="3">Ver solo los mouses</option> </select>
-    <input type="text" id="marca"> <select id=enStock> <option value="1">Solo en Stock</option> <option value="2">Todos</option> </select> 
+    <input type="text" id="marca" class="input"> <select id=enStock> <option value="1">Solo en Stock</option> <option value="2">Todos</option> </select> 
     <button type="button" id="buscar">Buscar</button>`
     opciones.appendChild(opcion)
     let verProductos = document.getElementById("verProductos")
@@ -543,6 +544,21 @@ const eliminar_producto = (lista)=>{
     }
 }
 
+const borrar_inventario=()=>{
+    subMenus.innerHTML=``
+    opciones.innerHTML=``
+    ingresar.innerHTML=``
+    mostrar.innerHTML=``
+    let aviso = document.createElement("p")
+    aviso.innerHTML=`<h3>Si oprime confirmar se van a borrar todos los productos cargados en el sistema.</h3>
+    <button type="button" id="confirmar">Confirmar</button>`
+    mostrar.appendChild(aviso)
+    let confirmar = document.getElementById(confirmar)
+    confirmar.onclick = () =>{
+        localStorage.clear()
+    }
+}
+
 verInventario.onclick = () =>{
     ver_inventario()
 }
@@ -556,7 +572,7 @@ editarInventario.onclick = () =>{
     editar_inventario()
 }
 borrarInventario.onclick = () =>{
-    localStorage.clear()
+    borrar_inventario()
 }
 
 
