@@ -1,8 +1,6 @@
 let productosrecuperados=JSON.parse(localStorage.getItem('productos'))
 if (productosrecuperados== null){
-    
     productosrecuperados=[]
-    console.log("2")
     fetch("./db/data.JSON")
     .then(response => response.json())
     .then(data => {
@@ -51,7 +49,6 @@ const ver_inventario = ()=>{
         productosrecuperados=[]
     }
     const listaProductos= productosrecuperados
-    console.log(listaProductos)
     subMenus.innerHTML=``
     mostrar.innerHTML=``
     opciones.innerHTML=``
@@ -84,7 +81,6 @@ const ver_inventario = ()=>{
 
 const ver_teclado= (lista) =>{
     const teclados = tipo_teclado(lista)
-    console.log(teclados)
     let titulo=document.createElement("h3")
     if (teclados.length>0){
         titulo.innerHTML=`Teclados`
@@ -347,7 +343,6 @@ const buscar_marca = (lista)=>{
     let buscar = document.getElementById("buscar")
     buscar.onclick= ()=>{
         const nueva_lista = filtrar_marca(lista,marca.value)
-        console.log(nueva_lista)
         if((enStock.value)=="1"){
             const lista_stock = en_stock(nueva_lista)
             if ((verProductos.value)=="2"){
@@ -552,12 +547,10 @@ const borrar_inventario=()=>{
     ingresar.innerHTML=``
     mostrar.innerHTML=``
     let aviso = document.createElement("p")
-    aviso.innerHTML=`<h3>Si oprime confirmar se van a borrar todos los productos cargados en el sistema.</h3>
-    <button type="button" id="confirmar">Confirmar</button>`
+    aviso.innerHTML=`<h3>Si oprime confirmar se van a borrar todos los productos cargados en el sistema.</h3><button type="button" id="confirmar">Confirmar</button>`
     mostrar.appendChild(aviso)
     let confirmar = document.getElementById("confirmar")
     confirmar.onclick = () =>{
-        console.log("1")
         localStorage.clear()
     }
 }
